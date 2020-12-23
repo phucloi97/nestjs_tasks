@@ -8,6 +8,7 @@ export class TaskStatusValidationPipe implements PipeTransform {
     TaskStatus.DONE,
   ];
   transform(value: string) {
+    console.log('pipes triger');
     value = value.toUpperCase();
     if (!this.isStatusValid(value)) {
       throw new NotFoundException();
@@ -15,7 +16,7 @@ export class TaskStatusValidationPipe implements PipeTransform {
     return value;
   }
   private isStatusValid(status: any) {
-    const idx = this.taskStatus.indexOf(status);
+    const idx = this.taskStatus.indexOf(status) != -1;
     return idx;
   }
 }

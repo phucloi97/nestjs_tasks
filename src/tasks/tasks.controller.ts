@@ -48,7 +48,7 @@ export class TasksController {
   @Patch('/:id/status')
   updateTask(
     @Param('id') id: string,
-    @Body('status', new TaskStatusValidationPipe()) status: TaskStatus,
+    @Body('status', TaskStatusValidationPipe) status: TaskStatus,
   ) {
     return this.taskSevice.updateTaskStatus(id, status);
   }
