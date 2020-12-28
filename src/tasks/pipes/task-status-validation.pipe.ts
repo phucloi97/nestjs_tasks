@@ -1,5 +1,9 @@
-import { NotFoundException, PipeTransform } from '@nestjs/common';
-import { TaskStatus } from '../tasks.model';
+import {
+  MethodNotAllowedException,
+  NotFoundException,
+  PipeTransform,
+} from '@nestjs/common';
+import { TaskStatus } from '../status.enum';
 
 export class TaskStatusValidationPipe implements PipeTransform {
   readonly taskStatus = [
@@ -20,3 +24,6 @@ export class TaskStatusValidationPipe implements PipeTransform {
     return idx;
   }
 }
+// khác nhau giữ implements và extends
+// extends có thể sử dụng phương thức mà k phải override lại Method
+// còn implement thì bắt buộc phải override lại tất cả các method
