@@ -22,14 +22,10 @@ import { TasksService } from './tasks.service';
 export class TasksController {
   constructor(private taskSevice: TasksService) {}
 
-  // @Get()
-  // getTask(@Query() taskFilter: TaskFilter): Task[] {
-  //   if (Object.keys(taskFilter).length) {
-  //     return this.taskSevice.taskFilter(taskFilter);
-  //   } else {
-  //     return this.taskSevice.getAllTasks();
-  //   }
-  // }
+  @Get()
+  async getTask(@Query() taskFilter: TaskFilter): Promise<Task[]> {
+    return this.taskSevice.getAllTasks(taskFilter);
+  }
 
   @Post()
   @UsePipes(new ValidationPipe({ transform: true })) // cho pheps kiem tra tu DTO

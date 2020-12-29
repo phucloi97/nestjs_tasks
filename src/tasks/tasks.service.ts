@@ -12,24 +12,9 @@ export class TasksService {
     @InjectRepository(TaskRepository)
     private taskRepository: TaskRepository,
   ) {}
-  // private tasks: Task[] = [];
-  // getAllTasks(): Task[] {
-  //   return this.tasks;
-  // }
-  // taskFilter(taskFilter: TaskFilter): Task[] {
-  //   let tasks = this.getAllTasks();
-  //   let { status, search } = taskFilter;
-  //   if (taskFilter.status) {
-  //     tasks = tasks.filter((task) => task.status === status);
-  //   }
-  //   if (taskFilter.search) {
-  //     tasks = tasks.filter(
-  //       (task) =>
-  //         task.title.includes(search) || task.description.includes(search),
-  //     );
-  //   }
-  //   return tasks;
-  // }
+  async getAllTasks(taskFilter: TaskFilter): Promise<Task[]> {
+    return this.taskRepository.getTask(taskFilter);
+  }
   async createTask(createTaskdto: CreateTaskdto): Promise<Task> {
     return this.taskRepository.createTask(createTaskdto);
   }
