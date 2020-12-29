@@ -33,10 +33,10 @@ export class TaskRepository extends Repository<Task> {
   //   })
 
   // }
-  async getTask(taskFilter: TaskFilter) {
+  async getTask(taskFilter: TaskFilter): Promise<Task[]> {
     const { status, search } = taskFilter;
     const query = await this.createQueryBuilder('task');
-    query.delete().where('id= :id', { id: 1 }); // thu delete kieu nay
+    // query.delete().where('id= :id', { id: 1 }).execute(); // thu delete kieu nay
     query.andWhere('task.status = :status', { status });
     query.andWhere('task.description LIKE :search', { search: `${search}%` });
     const task = await query.getMany();
