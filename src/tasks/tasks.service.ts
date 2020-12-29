@@ -34,24 +34,16 @@ export class TasksService {
     return this.taskRepository.createTask(createTaskdto);
   }
   async findTaskById(id: number): Promise<Task> {
-    const found = await this.taskRepository.findOne(id);
-    if (!found) {
-      throw new NotFoundException({
-        description: {
-          status_code: 404,
-          message: 'id not found',
-        },
-      });
-    }
+    return this.taskRepository.findTaskById(id);
+  }
+  async deleteTaskById(id: number): Promise<void> {
+    this.taskRepository.deleteTask(id);
+  }
+  async updateTaskStatus(id: number, status: TaskStatus): Promise<Task> {
+    let found = await this.findTaskById(id);
+    // await this.taskRepository.update(id, found)
+    found.status = status;
+    await found.save();
     return found;
   }
-  // deleteTaskById(id: string): void {
-  //   const found = this.findTaskById(id);
-  //   this.tasks = this.tasks.filter((task) => task.id != id);
-  // }
-  // updateTaskStatus(id: string, status: TaskStatus): Task {
-  //   let task = this.findTaskById(id);
-  //   task.status = status;
-  //   return task;
-  // }
 }

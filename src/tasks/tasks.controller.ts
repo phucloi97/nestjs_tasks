@@ -42,16 +42,16 @@ export class TasksController {
     return this.taskSevice.findTaskById(id);
   }
 
-  // @Delete('/:id')
-  // deleteTask(@Param('id') id: string) {
-  //   this.taskSevice.deleteTaskById(id);
-  // }
+  @Delete('/:id')
+  deleteTask(@Param('id', ParseIntPipe) id: number) {
+    this.taskSevice.deleteTaskById(id);
+  }
 
-  // @Patch('/:id/status')
-  // updateTask(
-  //   @Param('id') id: string,
-  //   @Body('status', TaskStatusValidationPipe) status: TaskStatus,
-  // ) {
-  //   return this.taskSevice.updateTaskStatus(id, status);
-  // }
+  @Patch('/:id/status')
+  updateTask(
+    @Param('id', ParseIntPipe) id: number,
+    @Body('status', TaskStatusValidationPipe) status: TaskStatus,
+  ) {
+    return this.taskSevice.updateTaskStatus(id, status);
+  }
 }
