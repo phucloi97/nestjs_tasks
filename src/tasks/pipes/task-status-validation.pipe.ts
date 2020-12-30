@@ -1,8 +1,4 @@
-import {
-  MethodNotAllowedException,
-  NotFoundException,
-  PipeTransform,
-} from '@nestjs/common';
+import { NotFoundException, PipeTransform } from '@nestjs/common';
 import { TaskStatus } from '../status.enum';
 
 export class TaskStatusValidationPipe implements PipeTransform {
