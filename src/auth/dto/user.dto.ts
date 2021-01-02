@@ -1,10 +1,11 @@
-import { Optional } from '@nestjs/common';
-import { Max, Min } from 'class-validator';
+import { IsString, MaxLength, MinLength } from 'class-validator';
 
 export class UserDto {
+  @IsString()
+  @MinLength(3)
   name: string;
-  @Optional()
-  @Min(8)
-  @Max(16)
+  @IsString()
+  @MinLength(6)
+  @MaxLength(16)
   password: string;
 }

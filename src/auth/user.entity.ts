@@ -1,7 +1,13 @@
-import { Optional } from '@nestjs/common';
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  Unique,
+} from 'typeorm';
+import * as bcrypt from 'bcrypt';
 @Entity()
+@Unique(['name'])
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -9,4 +15,10 @@ export class User extends BaseEntity {
   name: string;
   @Column()
   password: string;
+  @Column()
+  salt: string;
+  async validatePassword(password: string): Promise<boolean> {
+    let match = await bcrypt.hash(password, this.salt);
+    return match === this.password;
+  }
 }
