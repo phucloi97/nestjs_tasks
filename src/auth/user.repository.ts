@@ -25,18 +25,18 @@ export class UserRepository extends Repository<User> {
       } else throw new InternalServerErrorException();
     }
   }
-  async SignIn(userDto: UserDto) {
+  async SignIn(userDto: UserDto): Promise<string> {
     const { name, password } = userDto;
     const user = await this.findOne({ name: name });
     if (user) {
       const match = await this.hashPassword(password, user.salt);
       if (match) {
-        return user;
+        return user.name;
       } else {
         throw new UnauthorizedException();
       }
     } else {
-      return new UnauthorizedException();
+      throw new UnauthorizedException();
     }
   }
   private async hashPassword(password: string, salt: string): Promise<string> {

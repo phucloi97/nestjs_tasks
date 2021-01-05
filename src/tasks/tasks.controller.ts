@@ -8,29 +8,41 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { CreateTaskdto } from './dto/task.dto';
 import { TaskFilter } from './dto/task_filter.dto';
 import { TaskStatusValidationPipe } from './pipes/task-status-validation.pipe';
 import { TaskStatus } from './status.enum';
 import { Task } from './task.entity';
 import { TasksService } from './tasks.service';
+import { GetUser } from '../auth/get-user.decorator';
+import { User } from 'src/auth/user.entity';
 
+@UseGuards(AuthGuard()) //sur dung decorator nay de xac thuc
 @Controller('tasks')
 export class TasksController {
   constructor(private taskSevice: TasksService) {}
 
   @Get()
-  async getTask(@Query() taskFilter: TaskFilter): Promise<Task[]> {
-    return this.taskSevice.getAllTasks(taskFilter);
+  async getTask(
+    @Query() taskFilter: TaskFilter,
+    @GetUser() user,
+  ): Promise<Task[]> {
+    console.log(user);
+    return this.taskSevice.getAllTasks(taskFilter, user);
   }
 
   @Post()
   @UsePipes(new ValidationPipe({ transform: true })) // cho pheps kiem tra tu DTO
-  async createTask(@Body() createTaskdto: CreateTaskdto): Promise<Task> {
-    return this.taskSevice.createTask(createTaskdto);
+  async createTask(
+    @Body() createTaskdto: CreateTaskdto,
+    @GetUser() user: User,
+  ): Promise<Task> {
+    return this.taskSevice.createTask(createTaskdto, user);
   }
 
   @Get('/:id')
